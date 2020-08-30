@@ -1,12 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>dalisama 2020</Copyright>
+    <Description>Dalisama.Extensions.Configuration.Consul</Description>
+    <PackageProjectUrl>https://github.com/dalisama/Dalisama.Extensions.Configuration.Consul</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dalisama/Dalisama.Extensions.Configuration.Consul</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>cropped-eyeglasses1-192x192.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>consul; configuration; dotnetcore</PackageTags>
+    <PackageReleaseNotes>Dalisama.Extensions.Configuration.Consul</PackageReleaseNotes>
+    <Title>Dalisama.Extensions.Configuration.Consul</Title>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="cropped-eyeglasses1-192x192.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
