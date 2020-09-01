@@ -1,14 +1,15 @@
+
 # Dalisama.Extensions.Configuration.Consul
 
 Hi! As a rule of thumb, it's always better to separate your application package and your configuration, especially when working with docker or/and microservice, you need to ship them separately. One way to ship your configuration is via consul that offer you the opportunity to deliver you configuration via API.
 
 > If you implement your own API to deliver configuration, please use this package **Dalisama.Extensions.Configuration**
 
-## Example
+## Example #1: using simple Key value
 
 I am a big believer of learning by example so:
 
-## Get consul up and running
+###  Get consul up and running
 
 the easiest way to do this is by using docker:
 
@@ -60,7 +61,7 @@ http://localhost:8500/ui/dc1/kv/Example/MyKeys/
 
 >**Example/MyKeys** this is the path of the configuration in consul.
 
-## Consume the configuration
+###  Consume the configuration
 
 Now you need to run this web application from your visual studio or using command line Dalisama.Extensions.Configuration.Consul.Example.
 
@@ -150,7 +151,7 @@ public Startup(IConfiguration configuration)
 
 Configuration = configuration;
 
-Configuration = (IConfiguration)new ConfigurationBuilder().AddApiConfiguration(options =>
+Configuration = (IConfiguration)new ConfigurationBuilder().AddConsulConfiguration(options =>
 
 {
 
@@ -183,3 +184,43 @@ Finally, you need to inject your configuration mapping:
 ```` csharp
 services.Configure<Keys>(Configuration.GetSection("MyKeys"));
 ````
+
+## Example #2: using json file as value
+
+for the second example, we will inject a json file into consul using this command:
+````shell-session
+curl --request PUT    --data {\"AnotherKey\":{\"key1\":\"key5\",\"key2\":\"key6\",\"key3\":\"key7\",\"key4\":4}}   http://127.0.0.1:8500/v1/kv/Example/MyKeysRaw
+````
+
+Now, like we did with the first example, we will use this code to add the configuration using the custom configuration provider:
+
+```` csharp
+     Configuration = configuration;
+            Configuration = (IConfiguration)new ConfigurationBuilder()
+                .AddConsulRawConfiguration(options =>
+            {
+	        options.ApiUri = "http://localhost:8500/v1/kv/";
+                options.KeyPath = @"Example/MyKeysRaw";
+                options.ReloadOnChange = true;
+                options.Headers = new Dictionary<string, string>
+                {   // for authentication you can use one of those two but not both, don't be creedy
+                    // ["X-Consul-Token"]="token"
+                    // [Authorization]="Bearer <token>"
+                };
+                options.IgnoreSSL = true;
+            })
+                .Build();
+        }
+````
+
+To test if it works, you need to run the example application and use this url:
+````
+https://localhost:5001/API/Exampleraw
+````
+and like the first example you can change the configuration with this command:
+````shell-session
+curl --request PUT    --data {\"AnotherKey\":{\"key1\":\"new key5\",\"key2\":\"new key6\",\"key3\":\"new key7\",\"key4\":5}}   http://127.0.0.1:8500/v1/kv/Example/MyKeysRaw
+````
+
+now refresh the URL and **Voilà**!!
+
