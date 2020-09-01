@@ -1,4 +1,6 @@
 
+![.NET Core](https://github.com/dalisama/Dalisama.Extensions.Configuration.Consul/workflows/.NET%20Core/badge.svg)
+
 # Dalisama.Extensions.Configuration.Consul
 
 Hi! As a rule of thumb, it's always better to separate your application package and your configuration, especially when working with docker or/and microservice, you need to ship them separately. One way to ship your configuration is via consul that offer you the opportunity to deliver you configuration via API.
