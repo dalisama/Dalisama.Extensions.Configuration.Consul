@@ -13,7 +13,8 @@ namespace Dalisama.Extensions.Configuration.Consul.Example
         {
 
             Configuration = configuration;
-            Configuration = (IConfiguration)new ConfigurationBuilder().AddApiConfiguration(options =>
+            Configuration = (IConfiguration)new ConfigurationBuilder()
+                .AddConsulConfiguration(options =>
             {
                 options.ApiUri = "http://localhost:8500/v1/kv/";
                 options.KeyPath = @"Example";
@@ -24,7 +25,20 @@ namespace Dalisama.Extensions.Configuration.Consul.Example
                     // [Authorization]="Bearer <token>"
                 };
                 options.IgnoreSSL = true;
-            }).Build();
+            })
+                .AddConsulRawConfiguration(options =>
+            {
+                options.ApiUri = "http://localhost:8500/v1/kv/";
+                options.KeyPath = @"Example/MyKeysRaw";
+                options.ReloadOnChange = true;
+                options.Headers = new Dictionary<string, string>
+                {   // for authentication you can use one of those two but not both, don't be creedy
+                    // ["X-Consul-Token"]="token"
+                    // [Authorization]="Bearer <token>"
+                };
+                options.IgnoreSSL = true;
+            })
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -34,6 +48,8 @@ namespace Dalisama.Extensions.Configuration.Consul.Example
         {
             services.AddControllers();
             services.Configure<Keys>(Configuration.GetSection("MyKeys"));
+            services.Configure<RawKeys>(Configuration.GetSection("AnotherKey"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -45,7 +45,7 @@ namespace Dalisama.Extensions.Configuration.Consul
                         Set(
                                        tk.Value<string>("Key").Replace($"{Source.ApiOption.KeyPath}/", string.Empty).Replace("/", ":")
                                        , Encoding.UTF8.GetString(Convert.FromBase64String(tk.Value<string>("Value")))
-                                       );
+                           );
                     }
                 }
             }

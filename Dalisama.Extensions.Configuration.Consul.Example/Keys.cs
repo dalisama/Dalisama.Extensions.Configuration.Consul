@@ -9,5 +9,8 @@
             public string Key3 { get; set; }
             public int Key4 { get; set; }
         }
+
+        public class RawKeys : Keys { };
+
     }
 }
