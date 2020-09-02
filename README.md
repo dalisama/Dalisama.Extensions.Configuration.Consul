@@ -1,5 +1,6 @@
 
 ![.NET Core](https://github.com/dalisama/Dalisama.Extensions.Configuration.Consul/workflows/.NET%20Core/badge.svg)
+![.NET Core](https://img.shields.io/nuget/v/Dalisama.Extensions.Configuration.Consul?style=flat-square)
 
 # Dalisama.Extensions.Configuration.Consul
 
