@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master ]-
 
 jobs:
   build:
@@ -21,3 +21,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Create nuget package
+      run: dotnet pack Dalisama.Extensions.Configuration.Consul/Dalisama.Extensions.Configuration.Consul.csproj --output nuget-packages --configuration Release
+    -name: publish to nuget.org
+      run:  dotnet nuget push Dalisama.Extensions.Configuration.Consul/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json  
